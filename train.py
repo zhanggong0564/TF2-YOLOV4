@@ -58,7 +58,7 @@ with strategy.scope():
         # for pred, label, loss in zip(preds, labels, loss_fn):
         #     loss_val = loss(label, pred)
         #     tal_loss += loss_val
-        args = preds + [labels[0],labels[1]]
+        args = [pre for pre in preds] + [lab for lab in labels]
         tal_loss = yolo_loss(args, anchors, cfg.num_class, label_smoothing=cfg.label_smoothing, normalize=False)
         return tf.nn.compute_average_loss(tal_loss, global_batch_size=cfg.Bacthsize)
     @tf.function

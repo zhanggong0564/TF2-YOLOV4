@@ -15,14 +15,14 @@ class Yolov4(tf.keras.Model):
         self.anchors = anchors
         self.number_class = number_class
         self.masks =masks
-        self.boxes_0 = Lambda(Lambda(lambda x: yolo_boxes(x, anchors[masks[0]],number_class),
-                             name='yolo_boxes_0'))
-        self.boxes_1 = Lambda(Lambda(lambda x: yolo_boxes(x, anchors[masks[1]],number_class),
-                             name='yolo_boxes_0'))
-        self.boxes_2 = Lambda(Lambda(lambda x: yolo_boxes(x, anchors[masks[2]],number_class),
-                             name='yolo_boxes_0'))
-        self.outputs = Lambda(lambda x: yolo_nms(x,anchors, masks,number_class),
-                             name='yolo_nms')
+        # self.boxes_0 = Lambda(Lambda(lambda x: yolo_boxes(x, anchors[masks[0]],number_class),
+        #                      name='yolo_boxes_0'))
+        # self.boxes_1 = Lambda(Lambda(lambda x: yolo_boxes(x, anchors[masks[1]],number_class),
+        #                      name='yolo_boxes_0'))
+        # self.boxes_2 = Lambda(Lambda(lambda x: yolo_boxes(x, anchors[masks[2]],number_class),
+        #                      name='yolo_boxes_0'))
+        # self.outputs = Lambda(lambda x: yolo_nms(x,anchors, masks,number_class),
+        #                      name='yolo_nms')
     # @tf.function
     def call(self, inputs,training=None):
         x3,x2,x1 = self.backbone(inputs,training = training)
@@ -30,10 +30,11 @@ class Yolov4(tf.keras.Model):
         if training:
             return outputs
         else:
-            boxes_0 = self.boxes_0(outputs[0])
-            boxes_1 = self.boxes_1(outputs[1])
-            boxes_2 = self.boxes_2(outputs[2])
-            outputs = self.outputs((boxes_0[1:4], boxes_1[1:4], boxes_2[1:4]))#objectness, class_probs,bbox,
+            # boxes_0 = self.boxes_0(outputs[0])
+            # boxes_1 = self.boxes_1(outputs[1])
+            # boxes_2 = self.boxes_2(outputs[2])
+            # outputs = self.outputs((boxes_0[1:4], boxes_1[1:4], boxes_2[1:4]))#objectness, class_probs,bbox,
+            outputs =  yolo_eval(outputs,self.anchors,self.number_class)
             return outputs
 
 # def YOLOV4Tiny(inputs,anchors,masks,classes,training):

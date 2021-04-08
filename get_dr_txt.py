@@ -32,8 +32,8 @@ class YoloDetect(object):
                                 (63, 74), (67, 66), (73, 75)],
                                np.float32)
             anchor_masks = np.array([[6, 7, 8], [3, 4, 5], [0, 1, 2]])
-            model = Yolov4(cfg.num_class, anchors, masks=anchor_masks)
-            model.build(input_shape=(None, 416, 416, 3))
+            self.model = Yolov4(cfg.num_class, anchors, masks=anchor_masks)
+            self.model.build(input_shape=(None, 416, 416, 3))
 
         self.model.load_weights(yolov4_weight)
 

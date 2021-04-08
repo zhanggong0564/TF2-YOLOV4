@@ -77,13 +77,14 @@ class YoloDataset(object):
         transform = A.Compose([
             A.Resize(self.image_size[0],self.image_size[1],p=1),
             A.HorizontalFlip(p=0.5),
-            # A.VerticalFlip(p=0.5),
-            # A.RandomRotate90(p=0.5),
+            A.RandomGamma(),
+            A.VerticalFlip(p=0.5),
+            A.RandomRotate90(p=0.5),
             A.OneOf([
                 A.RandomContrast(),
                 A.RandomBrightness(),
-                A.ColorJitter(brightness=0.07, contrast=0.07,
-                              saturation=0.1, hue=0.1, always_apply=False, p=0.3),
+                # A.ColorJitter(brightness=0.07, contrast=0.07,
+                #               saturation=0.1, hue=0.1, always_apply=False, p=0.3),
                 A.Cutout(),
                 A.CLAHE(),
                 A.Blur()
