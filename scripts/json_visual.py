@@ -50,7 +50,7 @@ if __name__ == '__main__':
     img_dir = r'H:\data\auto_dirve\Images\100k\val'
     json_dir = r'H:\data\auto_dirve\bdd100k_labels_detection20\bdd100k\labels\detection20\det_v2_val_release.json'
     save_dir = r'./json_visual'
-    list_file = open('train_val.txt', 'w')
+    list_file = open('../train_val.txt', 'w')
     image_json_visualization(img_dir,json_dir,list_file)
     list_file.close()
 
