@@ -58,7 +58,6 @@ class YoloDataset(object):
     def get_random_data(self,annotation_line):
         line = annotation_line.split()
         image_src = cv2.imread(line[0])
-        print(line[0])
         image = cv2.cvtColor(image_src,cv2.COLOR_BGR2RGB)
         # image = cv2.resize(image,(input_shape[0],input_shape[1]))
         box = np.array([np.array(list(map(int, box.split(',')))) for box in line[1:]])
@@ -218,7 +217,6 @@ class YoloDataset(object):
                 # -----------------------------------------------------------#
                 for l in range(num_layers):
                     if n in anchor_mask[l]:
-                        print(grid_shapes[l])
                         # -----------------------------------------------------------#
                         #   floor用于向下取整，找到真实框所属的特征层对应的x、y轴坐标
                         # -----------------------------------------------------------#
@@ -253,7 +251,7 @@ def get_anchors(anchors_path):
 
 if __name__ == '__main__':
     val_split = 0.1
-    with open('../train_val.txt','r',encoding= 'utf-8') as f:
+    with open('../data_info/train_val.txt', 'r', encoding='utf-8') as f:
         lines = f.readlines()
     lines = np.array(lines)
     np.random.seed(10101)

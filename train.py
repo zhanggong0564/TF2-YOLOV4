@@ -8,10 +8,8 @@ import numpy as np
 import config as cfg
 import os
 import time
-from model.Tiny.keras import yolo_body
 os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"
 
-from utils__.loss import YoloLoss
 
 gpus = tf.config.experimental.list_physical_devices('GPU')
 if gpus:
@@ -109,7 +107,6 @@ if __name__ == '__main__':
 
         avg_loss = tf.keras.metrics.Mean('loss', dtype=tf.float32)
         val_avg_loss = tf.keras.metrics.Mean('val_loss', dtype=tf.float32)
-        loss_fn = [YoloLoss(anchors[i],classes=cfg.num_class,label_smoothing=cfg.label_smoothing) for i in anchor_masks]
 
         if not cfg.yolotiny:
             model = Yolov4(cfg.num_class, anchors, anchor_masks)
@@ -164,7 +161,7 @@ if __name__ == '__main__':
             if val_loss.numpy() / val_i <cfg.best_loss:
                 cfg.best_loss = val_loss.numpy() / val_i
                 if cfg.yolotiny:
-                    model.save_weights('yolov4_tiny_car.h5')
+                    model.save_weights('yolov4_tiny.h5')
                 else:
                     model.save_weights(('yolov4.h5'))
 
