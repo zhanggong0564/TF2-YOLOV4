@@ -261,7 +261,7 @@ if __name__ == '__main__':
     np.random.seed(None)
     num_val = int(len(lines) * val_split)
     num_train = len(lines) - num_val
-    anchors = get_anchors('../yolo_tiny.txt')
+    anchors = get_anchors('../data_info/yolo_tiny.txt')
 
     dataset = YoloDataset(lines[:num_train],(416,416),4,anchors,4,mosaic=True,tiny=True)()
     for image,(y_true0,y_true1) in dataset:

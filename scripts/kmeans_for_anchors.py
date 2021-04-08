@@ -88,7 +88,7 @@ if __name__ == '__main__':
     SIZE = 416
     anchors_num = 6
     # 载入数据集，可以使用VOC的xml
-    path = r'./VOCdevkit/VOC2007/Annotations'
+    path = r'../VOCdevkit/VOC2007/Annotations'
     
     # 载入所有的xml
     # 存储格式为转化为比例后的width,height
@@ -100,7 +100,7 @@ if __name__ == '__main__':
     print('acc:{:.2f}%'.format(avg_iou(data,out) * 100))
     print(out*SIZE)
     data = out*SIZE
-    f = open("yolo_anchors.txt", 'w')
+    f = open("../data_info/yolo_anchors.txt", 'w')
     row = np.shape(data)[0]
     for i in range(row):
         if i == 0:

@@ -31,7 +31,7 @@ strategy = tf.distribute.MirroredStrategy()
 if __name__ == '__main__':
     print('Number of devices: {}'.format(strategy.num_replicas_in_sync))  # 输出设备数量
 
-    with open(r'./2007_train.txt', 'r', encoding='utf-8') as f:
+    with open(r'data_info/2007_train.txt', 'r', encoding='utf-8') as f:
         lines = f.readlines()
     lines = np.array(lines)
     np.random.seed(10101)
