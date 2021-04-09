@@ -62,7 +62,7 @@ if __name__ == '__main__':
         cv2.waitKey()
         cv2.destroyAllWindows()
     else:
-        capture = cv2.VideoCapture('H:/TXT2/1.mp4')
+        capture = cv2.VideoCapture('H:/data.mp4')
         fps = 0.0
         while True:
             start = time.time()

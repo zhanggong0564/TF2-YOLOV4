@@ -30,7 +30,7 @@ def get_classes(classes_path):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--h',help='use voc or txt')
-    parser.add_argument('--voc',default=True,type=str2bool)
+    parser.add_argument('--voc',default=False,type=str2bool)
     args = parser.parse_args()
     classes_dict = {0: 'apple', 1: 'pear', 2: 'green', 3: 'orange'}
     with  open('data_info/2007_test.txt') as f:
@@ -74,13 +74,14 @@ if __name__ == '__main__':
         with  open('data_info/2007_test.txt') as f:
             txtinfo = f.readlines()
             for image_info in txtinfo:
-                image_path,boxesinfos =image_info.strip().split()[0],image_info.strip().split()[1]
+                image_path,boxesinfos =image_info.strip().split()[0],image_info.strip().split()[1:]
                 image_id = image_path.split('/')[-1].split('.')[0]
-                boxesinfo = boxesinfos.split(',')
-                class_id = int(boxesinfo[-1])
-                left, top, right, bottom = int(boxesinfo[0]),int(boxesinfo[1]),int(boxesinfo[2]),int(boxesinfo[3])
-                obj_name = classes_dict[class_id]
                 with open("./input/ground-truth/" + image_id + ".txt", "w") as new_f:
+                    for boxs in boxesinfos:
+                        boxesinfo = boxs.split(',')
+                        class_id = int(boxesinfo[-1])
+                        left, top, right, bottom = int(boxesinfo[0]),int(boxesinfo[1]),int(boxesinfo[2]),int(boxesinfo[3])
+                        obj_name = classes_dict[class_id]
                         new_f.write("%s %s %s %s %s\n" % (obj_name, left, top, right, bottom))
             print("Conversion completed!")
 
