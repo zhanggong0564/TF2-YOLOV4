@@ -161,26 +161,9 @@ if __name__ == '__main__':
             if val_loss.numpy() / val_i <cfg.best_loss:
                 cfg.best_loss = val_loss.numpy() / val_i
                 if cfg.yolotiny:
-                    model.save_weights('yolov4_tiny.h5')
+                    model.save_weights('yolov4_tiny_best.h5')
                 else:
                     model.save_weights(('yolov4.h5'))
-class MinStack:
-    def __init__(self):
-        self.A, self.B = [], []
 
-    def push(self, x: int) -> None:
-        self.A.append(x)
-        if not self.B or self.B[-1] >= x:
-            self.B.append(x)
-
-    def pop(self) -> None:
-        if self.A.pop() == self.B[-1]:
-            self.B.pop()
-
-    def top(self) -> int:
-        return self.A[-1]
-
-    def min(self) -> int:
-        return self.B[-1]
 
 

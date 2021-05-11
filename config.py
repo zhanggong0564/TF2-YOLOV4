@@ -1,6 +1,6 @@
 import os
 
-data_dir = 'data_info/2007_train_fruit.txt'
+data_dir = '2007_train.txt'
 checkpoint_dir = './tiny_checkpiont'
 checkpoint_prefix = os.path.join(checkpoint_dir, "ckpt")
 best_loss = 20
@@ -11,5 +11,5 @@ use_mosico = True
 yolotiny = True
 label_smoothing = 0.01
 premodel = 'yolov4_tiny.h5'
-pred_image = True
+pred_image = False
 use_CosineDecayRestarts = True

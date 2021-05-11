@@ -1,6 +1,6 @@
+import cv2
 import tensorflow as tf
 import math
-import cv2
 import numpy as np
 import math
 from  matplotlib.colors import rgb_to_hsv,hsv_to_rgb
@@ -490,6 +490,15 @@ def yolo_boxes_and_scores(feats, anchors, num_classes, input_shape):
     box_scores = box_confidence * box_class_probs
     box_scores = K.reshape(box_scores, [-1, num_classes])
     return boxes, box_scores
+
+def get_aim(cx,cy,color_intrin_part,aligned_depth_frame):
+    target_depth = aligned_depth_frame.get_distance(int(cx), int(cy))
+    # if target_depth==0.0:
+    #     raise Exception("Invaild target_depth",target_depth)
+    target_xyz_true = [(cx - color_intrin_part[0]) * target_depth / color_intrin_part[2],
+                       (cy - color_intrin_part[1]) * target_depth / color_intrin_part[3],
+                       target_depth]
+    return target_xyz_true
          
 
 

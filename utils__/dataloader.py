@@ -58,6 +58,10 @@ class YoloDataset(object):
     def get_random_data(self,annotation_line):
         line = annotation_line.split()
         image_src = cv2.imread(line[0])
+        try:
+            image_src.shape
+        except:
+            print("{}路径不存在".format(line[0]))
         image = cv2.cvtColor(image_src,cv2.COLOR_BGR2RGB)
         # image = cv2.resize(image,(input_shape[0],input_shape[1]))
         box = np.array([np.array(list(map(int, box.split(',')))) for box in line[1:]])
@@ -98,7 +102,7 @@ class YoloDataset(object):
         # pdb.set_trace()
         box = np.hstack((bboxs,category_ids))
         # 可视化
-        # print(bboxs)
+        # print(box)
         # for bb,id in zip(bboxs,category_ids):
         #     print(bb)
         #     print(id)

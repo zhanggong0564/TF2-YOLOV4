@@ -5,6 +5,7 @@ import numpy as np
 import config as cfg
 from model.Yolov4 import Yolov4
 import time
+import pyrealsense2  as rs
 gpus = tf.config.experimental.list_physical_devices('GPU')
 if gpus:
     try:
@@ -24,6 +25,14 @@ def get_pred(image_data):
     return boxes, scores, classes
 if __name__ == '__main__':
     classes_dict = {0:'apple',1:'pear',2:'green',3:'orange'}
+    pipeline = rs.pipeline()
+    config = rs.config()
+    config.enable_stream(rs.stream.color, 1280, 720, rs.format.bgr8, 30)
+    config.enable_stream(rs.stream.depth, 1280, 720, rs.format.z16, 30)
+    pipeline.start(config)
+    align = rs.align(rs.stream.color)
+
+
     if cfg.yolotiny:
         yolov4_weight = 'yolov4_tiny.h5'
         anchors = np.array([(10, 14), (23, 27), (37, 58), (81, 82), (135, 169), (344, 319)])
@@ -62,11 +71,17 @@ if __name__ == '__main__':
         cv2.waitKey()
         cv2.destroyAllWindows()
     else:
-        capture = cv2.VideoCapture('H:/data.mp4')
+        # capture = cv2.VideoCapture('H:/data.mp4')
         fps = 0.0
         while True:
+            frames = pipeline.wait_for_frames()
+            aligned_frames = align.process(frames)
+            aligned_depth_frame = aligned_frames.get_depth_frame()
+            color_frame = aligned_frames.get_color_frame()
+            color_image = np.asanyarray(color_frame.get_data())
+            frame = color_image
             start = time.time()
-            res,frame = capture.read()
+            # res,frame = capture.read()
             h,w,c = frame.shape
             image = cv2.cvtColor(frame,cv2.COLOR_BGR2RGB)
             image = cv2.resize(image,(416,416))/255.0
@@ -89,5 +104,5 @@ if __name__ == '__main__':
             k = cv2.waitKey(1)
             if k==27:
                 break
-        capture.release()
+        # capture.release()
         cv2.destroyAllWindows()
